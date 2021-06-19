@@ -1,0 +1,14 @@
+*******************************atart zookeeper******************************
+C:\kafka>.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+...INFO binding to port 0.0.0.0/0.0.0.0:2181...
+***************************************start kafka server*******************************
+C:\kafka>.\bin\windows\kafka-server-start.bat .\config\server.properties
+**************************************listen to the massages sent about topics***************************************
+C:\kafka>.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic NewTopic --from-beginning
+run ApacheKafkaProducerDemoApplication -> ...Tomcat initialized with port(s): 8081 (http)...
+*************************************************send message with topic through browser******************************************
+type http://localhost:8081/publish/Hello World!! in browser -> Published Successfully 
+The msg is displayed on screen as follows
+C:\kafka>.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic NewTopic --from-beginning
+Hello World!!
+***********************************************pass json to kafka******************************************
