@@ -11,4 +11,4 @@ type http://localhost:8081/publish/Hello World!! in browser -> Published Success
 The msg is displayed on screen as follows
 C:\kafka>.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic NewTopic --from-beginning
 Hello World!!
-***********************************************pass json to kafka******************************************
+***********************************************pass json to kafka by Postman******************************************
