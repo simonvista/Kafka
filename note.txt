@@ -1,0 +1,73 @@
+C:\Users\YL\Desktop\Tutorials\Kafka\DailyCodeBuffer>docker --version
+Docker version 20.10.5, build 55c4c88
+
+C:\Users\YL\Desktop\Tutorials\Kafka\DailyCodeBuffer>docker-compose --version
+docker-compose version 1.28.5, build c4eb3a1f
+--------------------------------------------------------------------------
+Kafka development setup example
+To use Kafka in a development setup, create the following docker-compose.yml file:
+
+version: "3"
+services:
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+To deploy it, run the following command in the directory where the docker-compose.yml file is located:
+
+docker-compose up -d
+--------------------------------------------------------------------------------------------------------
+C:\Users\YL\Desktop\Tutorials\Kafka\DailyCodeBuffer>docker images
+REPOSITORY          TAG       IMAGE ID       CREATED        SIZE
+bitnami/kafka       latest    b41ab531d426   15 hours ago   584MB
+bitnami/zookeeper   latest    d403385e8dec   25 hours ago   468MB
+
+C:\Users\YL\Desktop\Tutorials\Kafka\DailyCodeBuffer>docker ps
+CONTAINER ID   IMAGE                      COMMAND                  CREATED         STATUS         PORTS                                                                     NAMES
+e15addd23906   bitnami/kafka:latest       "/opt/bitnami/script…"   3 minutes ago   Up 3 minutes   0.0.0.0:9092->9092/tcp, :::9092->9092/tcp                                 kakfa
+cfdd825c6268   bitnami/zookeeper:latest   "/opt/bitnami/script…"   3 minutes ago   Up 3 minutes   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, :::2181->2181/tcp, 8080/tcp   zookeeper
+
+C:\Users\YL\Desktop\Tutorials\Kafka\DailyCodeBuffer>docker exec -it e15addd23906 /bin/sh
+$ ls
+bin  bitnami  boot  dev  docker-entrypoint-initdb.d  entrypoint.sh  etc  home  lib  lib64  media  mnt  opt  proc  root  run  run.sh  sbin  srv  sys  tmp  usr  var
+$ cd opt
+$ ls
+bitnami
+$ cd bitnami
+$ ls
+common  java  kafka  licenses  scripts
+$ cd kafka
+$ ls
+LICENSE  NOTICE  bin  conf  config  libs  licenses  logs  site-docs
+$ cd bin
+$ ls
+connect-distributed.sh        kafka-console-producer.sh    kafka-log-dirs.sh                    kafka-server-start.sh               windows
+connect-mirror-maker.sh       kafka-consumer-groups.sh     kafka-metadata-shell.sh              kafka-server-stop.sh                zookeeper-security-migration.sh
+connect-standalone.sh         kafka-consumer-perf-test.sh  kafka-mirror-maker.sh                kafka-storage.sh                    zookeeper-server-start.sh
+kafka-acls.sh                 kafka-delegation-tokens.sh   kafka-preferred-replica-election.sh  kafka-streams-application-reset.sh  zookeeper-server-stop.sh
+kafka-broker-api-versions.sh  kafka-delete-records.sh      kafka-producer-perf-test.sh          kafka-topics.sh                     zookeeper-shell.sh
+kafka-cluster.sh              kafka-dump-log.sh            kafka-reassign-partitions.sh         kafka-verifiable-consumer.sh
+kafka-configs.sh              kafka-features.sh            kafka-replica-verification.sh        kafka-verifiable-producer.sh
+kafka-console-consumer.sh     kafka-leader-election.sh     kafka-run-class.sh                   trogdor.sh
+$ kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic dcb
+Created topic dcb.
+$ kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic news
+Created topic news.
+$ kafka-topics.sh --list --zookeeper zookeeper:2181
+dcb
+news
+----------------------------------------------------------------------------------------------------------------
