@@ -1,0 +1,21 @@
+*******************************atart zookeeper******************************
+C:\kafka>.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+...INFO binding to port 0.0.0.0/0.0.0.0:2181...
+***************************************start kafka server*******************************
+C:\kafka>.\bin\windows\kafka-server-start.bat .\config\server.properties
+********************************start zookeeper************************************
+C:\kafka>.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+... INFO binding to port 0.0.0.0/0.0.0.0:2181...
+***************************start Apache Kafka**********************************
+C:\kafka>.\bin\windows\kafka-server-start.bat .\config\server.properties
+************************************create topics********************************
+C:\kafka>.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic NewTopic
+Created topic NewTopic.
+************************************list topics***************************************
+C:\kafka>.\bin\windows\kafka-topics.bat --list --zookeeper localhost:2181
+NewTopic
+C:\kafka>.\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic NewTopic
+>DailyCodeBuffer
+>Hello!!
+****************************************************in order to consume json message*******************************************
+change StringDeserializer to JsonDeserializer in KafkaConfig
